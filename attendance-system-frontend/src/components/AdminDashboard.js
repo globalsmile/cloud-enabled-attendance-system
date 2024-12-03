@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Button, TextField, Typography, Box, List, ListItem } from "@mui/material";
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
@@ -22,30 +23,28 @@ const AdminDashboard = () => {
       });
       setUsers([...users, response.data]);
     } catch (err) {
-      console.error(err);
+      console.error("Failed to add user: " + (err.response?.data?.message || err.message));
     }
   };
 
   return (
-    <div>
-      <h2>Admin Dashboard</h2>
-      <div>
-        <input
-          type="text"
-          placeholder="New User Name"
+    <Box>
+      <Typography variant="h4">Admin Dashboard</Typography>
+      <Box>
+        <TextField
+          label="New User Name"
           value={newUser}
           onChange={(e) => setNewUser(e.target.value)}
         />
-        <button onClick={handleAddUser}>Add User</button>
-      </div>
-      <ul>
+        <Button variant="contained" color="primary" onClick={handleAddUser}>Add User</Button>
+      </Box>
+      <List>
         {users.map((user) => (
-          <li key={user.id}>{user.name}</li>
+          <ListItem key={user.id}>{user.name}</ListItem>
         ))}
-      </ul>
-    </div>
+      </List>
+    </Box>
   );
 };
 
 export default AdminDashboard;
-

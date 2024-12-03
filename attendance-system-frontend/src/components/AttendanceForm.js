@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Button, Typography, Box } from "@mui/material";
 
 const AttendanceForm = () => {
   const [status, setStatus] = useState("");
@@ -11,7 +12,7 @@ const AttendanceForm = () => {
       });
       setStatus(response.data.message);
     } catch (err) {
-      setStatus("Check-in failed.");
+      setStatus("Check-in failed: " + (err.response?.data?.message || err.message));
     }
   };
 
@@ -22,19 +23,18 @@ const AttendanceForm = () => {
       });
       setStatus(response.data.message);
     } catch (err) {
-      setStatus("Check-out failed.");
+      setStatus("Check-out failed: " + (err.response?.data?.message || err.message));
     }
   };
 
   return (
-    <div>
-      <h2>Attendance</h2>
-      <button onClick={handleCheckIn}>Check-In</button>
-      <button onClick={handleCheckOut}>Check-Out</button>
-      <p>{status}</p>
-    </div>
+    <Box>
+      <Typography variant="h4">Attendance</Typography>
+      <Button variant="contained" color="primary" onClick={handleCheckIn}>Check-In</Button>
+      <Button variant="contained" color="secondary" onClick={handleCheckOut}>Check-Out</Button>
+      <Typography variant="body1">{status}</Typography>
+    </Box>
   );
 };
 
 export default AttendanceForm;
-
